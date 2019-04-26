@@ -23,13 +23,22 @@ echo 'FONT=cyr-sun16' >> /etc/vconsole.conf
 echo 'Создадим загрузочный RAM диск'
 mkinitcpio -p linux
 
-echo '3.5 Устанавливаем загрузчик'
+echo '3.5 Устанавливаем UEFI менеджер загрузки'
 pacman -Syy
-pacman -S grub --noconfirm 
-grub-install /dev/sda
+pacman -S  efibootmgr --noconfirm
+bootctl install
 
-echo 'Обновляем grub.cfg'
-grub-mkconfig -o /boot/grub/grub.cfg
+echo 'Дополнительные настройки для UEFI'
+rm -rf /boot/loader/loader.conf
+echo "default arch" > /boot/loader/loader.conf
+echo "timeout 0" >> /boot/loader/loader.conf
+echo "editor 0" >> /boot/loader/loader.conf
+
+rm -rf /boot/loader/entries/arch.conf
+echo "title ArchLinux" > /boot/loader/entries/arch.conf
+echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch.conf
+echo "initrd /initramfs-linux.img" >> /boot/loader/entries/arch.conf
+echo "options root=/dev/sda2 rw" >> /boot/loader/entries/arch.conf
 
 echo 'Ставим программу для Wi-fi'
 pacman -S dialog wpa_supplicant --noconfirm 
