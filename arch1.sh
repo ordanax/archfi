@@ -25,7 +25,6 @@ echo '2.4 создание разделов'
   echo n;
   echo;
   echo;
-  echo;
   echo 100M;
 
   echo n;
