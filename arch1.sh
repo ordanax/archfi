@@ -18,28 +18,7 @@ echo 'Ссылка на чек лист есть в группе vk.com/arch4u'
 echo '2.3 Синхронизация системных часов'
 timedatectl set-ntp true
 
-echo '2.4 создание разделов'
-(
-  echo g;
 
-  echo n;
-  echo;
-  echo;
-  echo;
-  echo 100M;
-
-  echo n;
-  echo;
-  echo;
-  echo 20G;
-
-  echo n;
-  echo;
-  echo;
-  echo 80;
-
-  echo w;
-) | fdisk /dev/sda
 
 echo '2.4.2 Форматирование дисков'
 mkfs.vfat -F32 -n /dev/sda1 -L boot
