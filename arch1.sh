@@ -20,7 +20,7 @@ timedatectl set-ntp true
 
 echo '2.4 создание разделов'
 (
-  echo o;
+  echo g;
 
   echo n;
   echo;
@@ -38,33 +38,21 @@ echo '2.4 создание разделов'
   echo;
   echo;
   echo;
-  echo +1024M;
-
-  echo n;
-  echo p;
-  echo;
-  echo;
-  echo a;
-  echo 1;
+  echo +80;
 
   echo w;
 ) | fdisk /dev/sda
 
-echo 'Ваша разметка диска'
-fdisk -l
-
 echo '2.4.2 Форматирование дисков'
-mkfs.ext2  /dev/sda1 -L boot
-mkfs.ext4  /dev/sda2 -L root
-mkswap /dev/sda3 -L swap
-mkfs.ext4  /dev/sda4 -L home
+mkfs.vfat -F32 -n /dev/sda1 -L boot
+mkfs.ext4 /dev/sda2 -L root
+mkfs.ext4 /dev/sda3 -L home
 
 echo '2.4.3 Монтирование дисков'
 mount /dev/sda2 /mnt
 mkdir /mnt/{boot,home}
 mount /dev/sda1 /mnt/boot
-swapon /dev/sda3
-mount /dev/sda4 /mnt/home
+mount /dev/sda3 /mnt/home
 
 echo '3.1 Выбор зеркал для загрузки. Ставим зеркало от Яндекс'
 echo "Server = http://mirror.yandex.ru/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
@@ -75,4 +63,4 @@ pacstrap /mnt base base-devel
 echo '3.3 Настройка системы'
 genfstab -pU /mnt >> /mnt/etc/fstab
 
-arch-chroot /mnt sh -c "$(curl -fsSL git.io/arch2.sh)"
+arch-chroot /mnt sh -c "$(curl -fsSL git.io/archfi2.sh)"
